@@ -4,8 +4,6 @@ info:
   description: This is interface definition for AGV connectiviy Platform. For this
     sample, you can use the api key `special-key` to test the authorization     filters.
   termsOfService: http://swagger.io/terms/
-  contact:
-    email: wissam.totangy@scania.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -13,26 +11,22 @@ info:
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
-servers:
-- url: https://api-test-int.scania.com/CAGVT/1.0.0
 tags:
 - name: Transport Order
   description: All methods related to transport orders
   externalDocs:
     description: Find out more
-    url: https://apistore-test-int.scania.com/store
 - name: user
   description: All methods about picking user
   externalDocs:
     description: Find out more about our store
-    url: https://apistore-test-int.scania.com/store
 paths:
   /TransportOrder/getTransportOrderList:
     get:
       tags:
       - Transport Order
       summary: returns all transport orders from a list of areas
-      description: message is sent out from Scania in-house system each time an executing
+      description: message is sent out from in-house system each time an executing
         system asks for all the transport orders from a list of areas that is not
         completed yet.
       operationId: getTransportOrderList
@@ -86,9 +80,9 @@ paths:
     get:
       tags:
       - Transport Order
-      summary: message is sent out from Scania in-house system each time an executing
+      summary: message is sent out from in-house system each time an executing
         system asks for details of a transport order.
-      description: message is sent out from Scania in-house system each time an executing
+      description: message is sent out from in-house system each time an executing
         system asks for details of a transport order.
       operationId: getTransportOrderDetails
       parameters:
@@ -137,9 +131,9 @@ paths:
     put:
       tags:
       - Transport Order
-      summary: message is sent out from Scania in-house system each time a transport
+      summary: message is sent out from in-house system each time a transport
         order is changed in priority in the system
-      description: message is sent out from Scania in-house system each time a transport
+      description: message is sent out from in-house system each time a transport
         order is changed in priority in the system
       operationId: changedPriority
       parameters:
@@ -190,9 +184,9 @@ paths:
     put:
       tags:
       - Transport Order
-      summary: message is sent out from Scania in-house system each time a transport
+      summary: message is sent out from in-house system each time a transport
         order is cancelled in the system.
-      description: message is sent out from Scania in-house system each time a transport
+      description: message is sent out from in-house system each time a transport
         order is cancelled in the system.
       operationId: cancelTransportOrder
       parameters:
@@ -238,9 +232,9 @@ paths:
     put:
       tags:
       - Transport Order
-      summary: ' message is sent out from Scania in-house system each time a new transport
+      summary: ' message is sent out from in-house system each time a new transport
         order is created.'
-      description: ' message is sent out from Scania in-house system each time a new
+      description: ' message is sent out from in-house system each time a new
         transport order is created.'
       operationId: newTransportOrder
       parameters:
@@ -317,9 +311,9 @@ paths:
     put:
       tags:
       - New Request
-      summary: ' message is sent out from Scania in-house system each time a new request
+      summary: ' message is sent out from in-house system each time a new request
         is created.'
-      description: ' message is sent out from Scania in-house system each time a new
+      description: ' message is sent out from in-house system each time a new
         request is created.'
       operationId: newRequest
       parameters:
@@ -376,9 +370,9 @@ paths:
     put:
       tags:
       - Transport Order
-      summary: message is sent to Scania in-house system each time a executing system
+      summary: message is sent to in-house system each time a executing system
         moves a unit without a transport order
-      description: message is sent to Scania in-house system each time a executing
+      description: message is sent to in-house system each time a executing
         system moves a unit without a transport order
       operationId: moveMaterial
       parameters:
@@ -454,9 +448,9 @@ paths:
     put:
       tags:
       - Transport Order
-      summary: message is sent to Scania in-house system each time a transport order
+      summary: message is sent to in-house system each time a transport order
         is changed in the executing system
-      description: message is sent to Scania in-house system each time a transport
+      description: message is sent to in-house system each time a transport
         order is changed in the executing system
       operationId: updateTransportOrder
       parameters:
@@ -538,9 +532,9 @@ paths:
     put:
       tags:
       - Claim Mu
-      summary: message is sent to Scania in-house system each time a request
+      summary: message is sent to in-house system each time a request
         is changed in the executing system
-      description: message is sent to Scania in-house system each time a request
+      description: message is sent to in-house system each time a request
         is changed in the executing system
       operationId: updateClaimMu
       parameters:
@@ -552,7 +546,7 @@ paths:
           type: string
       - name: unitNumber
         in: query
-        description: unitNumber from subsystem if NULL from Scania in-house system, other wise return unitNumber
+        description: unitNumber from subsystem if NULL from in-house system, other wise return unitNumber
         required: true
         schema:
           type: string
@@ -901,7 +895,7 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: https://api-test-int.scania.com/authorize
+          authorizationUrl: https://api-test-int.company.com/authorize
           scopes:
             write:order: update transport order in your account
             read:order: read transport orders

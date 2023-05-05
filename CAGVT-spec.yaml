@@ -1,0 +1,911 @@
+openapi: 3.0.1
+info:
+  title: Common AGV Transport
+  description: This is interface definition for AGV connectiviy Platform. For this
+    sample, you can use the api key `special-key` to test the authorization     filters.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: wissam.totangy@scania.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.2.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://api-test-int.scania.com/CAGVT/1.0.0
+tags:
+- name: Transport Order
+  description: All methods related to transport orders
+  externalDocs:
+    description: Find out more
+    url: https://apistore-test-int.scania.com/store
+- name: user
+  description: All methods about picking user
+  externalDocs:
+    description: Find out more about our store
+    url: https://apistore-test-int.scania.com/store
+paths:
+  /TransportOrder/getTransportOrderList:
+    get:
+      tags:
+      - Transport Order
+      summary: returns all transport orders from a list of areas
+      description: message is sent out from Scania in-house system each time an executing
+        system asks for all the transport orders from a list of areas that is not
+        completed yet.
+      operationId: getTransportOrderList
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: areas
+        in: query
+        description: list of Warehouse activity areas
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: userId
+        in: query
+        description: User ID
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransportOrderList'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransportOrderList'
+        400:
+          description: Invalid status value
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/getTransportOrderDetails:
+    get:
+      tags:
+      - Transport Order
+      summary: message is sent out from Scania in-house system each time an executing
+        system asks for details of a transport order.
+      description: message is sent out from Scania in-house system each time an executing
+        system asks for details of a transport order.
+      operationId: getTransportOrderDetails
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: orderId
+        in: query
+        description: Transport order ID
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: User ID
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransportOrdeDetails'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransportOrdeDetails'
+        400:
+          description: Invalid status value
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/changedPriority:
+    put:
+      tags:
+      - Transport Order
+      summary: message is sent out from Scania in-house system each time a transport
+        order is changed in priority in the system
+      description: message is sent out from Scania in-house system each time a transport
+        order is changed in priority in the system
+      operationId: changedPriority
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: orderId
+        in: query
+        description: Transport order ID to have its priority changed
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: User ID
+        required: false
+        schema:
+          type: string
+      - name: Priority
+        in: query
+        description: The new priority for the transport order
+        allowEmptyValue: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid status value
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/cancelTransportOrder:
+    put:
+      tags:
+      - Transport Order
+      summary: message is sent out from Scania in-house system each time a transport
+        order is cancelled in the system.
+      description: message is sent out from Scania in-house system each time a transport
+        order is cancelled in the system.
+      operationId: cancelTransportOrder
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: orderId
+        in: query
+        description: Transport order ID to be cancelled
+        required: true
+        allowEmptyValue: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: User ID
+        required: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid status value
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/newTransportOrder:
+    put:
+      tags:
+      - Transport Order
+      summary: ' message is sent out from Scania in-house system each time a new transport
+        order is created.'
+      description: ' message is sent out from Scania in-house system each time a new
+        transport order is created.'
+      operationId: newTransportOrder
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: transportOrder
+        in: query
+        description: New transport order
+        required: true
+        schema:
+          type: object
+          properties:
+            orderId:
+              type: string
+            area:
+              type: string
+            source:
+              type: string
+            destination:
+              type: string
+            type:
+              type: string
+            unitNumber:
+              type: string
+            height:
+              type: integer
+            width:
+              type: integer
+            length:
+              type: integer              
+            weight:
+              type: integer
+            productNumber:
+              type: string
+            quantity:
+              type: number
+              format: double
+            vehicleType:
+              type: string              
+            priority:
+              type: integer
+            dueDate:
+              type: string
+              format: date-time
+            system:
+              type: string
+            time:
+              type: string
+              format: date-time              
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid status value
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/newRequest:
+    put:
+      tags:
+      - New Request
+      summary: ' message is sent out from Scania in-house system each time a new request
+        is created.'
+      description: ' message is sent out from Scania in-house system each time a new
+        request is created.'
+      operationId: newRequest
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: transportOrder
+        in: query
+        description: New Request
+        required: true
+        schema:
+          type: object
+          properties:
+            requestNo:
+              type: string
+            source:
+              type: string
+            destination:
+              type: string
+            productNumber:
+              type: string
+            quantity:
+              type: number
+            unitNumber:
+              type: string
+            system:
+              type: string
+            time:
+              type: string
+              format: date-time              
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid status value
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/moveMaterial:
+    put:
+      tags:
+      - Transport Order
+      summary: message is sent to Scania in-house system each time a executing system
+        moves a unit without a transport order
+      description: message is sent to Scania in-house system each time a executing
+        system moves a unit without a transport order
+      operationId: moveMaterial
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: User ID
+        required: false
+        schema:
+          type: string
+      - name: unitNumber
+        in: query
+        description: unitNumber
+        required: true
+        schema:
+          type: string
+      - name: externalUnitNumber
+        in: query
+        description: externalUnitNumber
+        required: true
+        schema:
+          type: string
+      - name: destination
+        in: query
+        description: destination
+        required: true
+        schema:
+          type: string
+      - name: vehicleId
+        in: query
+        description: vehicleID
+        required: true
+        schema:
+          type: string
+      - name: system
+        in: query
+        description: system
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        description: time
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: unsuccessful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/updateTransportOrder:
+    put:
+      tags:
+      - Transport Order
+      summary: message is sent to Scania in-house system each time a transport order
+        is changed in the executing system
+      description: message is sent to Scania in-house system each time a transport
+        order is changed in the executing system
+      operationId: updateTransportOrder
+      parameters:
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: orderId
+        in: query
+        description: Transfer order number
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: User ID
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: status
+        required: true
+        schema:
+          type: integer
+      - name: destination
+        in: query
+        description: destination
+        required: true
+        schema:
+          type: string
+      - name: vehicleId
+        in: query
+        description: vehicleId
+        required: true
+        schema:
+          type: string
+      - name: errorCode
+        in: query
+        description: errorCode
+        required: true
+        schema:
+          type: integer
+      - name: system
+        in: query
+        description: system
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        description: time
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: unsuccessful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /TransportOrder/updateClaimMu:
+    put:
+      tags:
+      - Claim Mu
+      summary: message is sent to Scania in-house system each time a request
+        is changed in the executing system
+      description: message is sent to Scania in-house system each time a request
+        is changed in the executing system
+      operationId: updateClaimMu
+      parameters:
+      - name: requestNo
+        in: query
+        description: Request identifier
+        required: true
+        schema:
+          type: string
+      - name: unitNumber
+        in: query
+        description: unitNumber from subsystem if NULL from Scania in-house system, other wise return unitNumber
+        required: true
+        schema:
+          type: string
+      - name: source
+        in: query
+        description: Updated source from subsystem
+        required: false
+        schema:
+          type: string
+      - name: destination
+        in: query
+        description: destination
+        required: false
+        schema:
+          type: string
+      - name: productNumber
+        in: query
+        description: product number for request
+        required: false
+        schema:
+          type: integer
+      - name: quantity
+        in: query
+        description: quantity of product number for request
+        required: false
+        schema:
+          type: number
+      - name: errorCode
+        in: query
+        description: errorCode
+        required: true
+        schema:
+          type: integer
+      - name: system
+        in: query
+        description: system
+        required: true
+        schema:
+          type: string
+      - name: time
+        in: query
+        description: time
+        required: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: unsuccessful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /user/checkUser:
+    get:
+      tags:
+      - user
+      summary: Validate a user and get the activity areas
+      description: Validate if user exist in WMS and get the activity areas the user
+        is allowed to work in
+      operationId: checkUser
+      parameters:
+      - name: userId
+        in: query
+        description: The user ID to be verified
+        required: true
+        schema:
+          type: string
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Valid user
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid user or warehouse
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        default:
+          description: unsuccessful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /user/userPermission:
+    get:
+      tags:
+      - user
+      summary: Return user activity areas the user is allowed to work in
+      description: get the activity areas the user is allowed to work in
+      operationId: UserPermission
+      parameters:
+      - name: userId
+        in: query
+        description: The user ID
+        required: true
+        schema:
+          type: string
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Valid user
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActivityArea'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActivityArea'
+        400:
+          description: Invalid user or warehouse
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        default:
+          description: unsuccessful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /user/logoutUser:
+    put:
+      tags:
+      - user
+      summary: Logs out a user from ongoing material movement event
+      description: Logs out a user from ongoing material movement event and unlock the 
+        order the user was working with
+      operationId: logoutUser
+      parameters:
+      - name: userId
+        in: query
+        description: The user ID for the operater
+        required: true
+        schema:
+          type: string
+      - name: warehouseId
+        in: query
+        description: Warehouse identifier
+        required: true
+        schema:
+          type: string
+      - name: orderId
+        in: query
+        description: The transport order number the user is working with
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Valid user
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Invalid user or warehouse
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        default:
+          description: unsuccessful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+components:
+  schemas:
+    TransportOrderList:
+      type: object
+      properties:
+        WarehouseId:
+          type: string
+        OrderId:
+          type: string
+        Area:
+          type: string
+        AreaName:
+          type: string
+        Source:
+          type: string
+        Destiniation:
+          type: string
+        Type:
+          type: string
+        UnitNumber:
+          type: string
+        Status:
+          type: integer
+        ProductNumber:
+          type: string
+        ProductDescription:
+          type: string
+        ProductType:
+          type: string
+        Quantity:
+          type: number
+          format: double
+        VehicleType:
+          type: string
+        Priority:
+          type: integer
+        DueDate:
+          type: string
+          format: date-time
+      xml:
+        name: TransportOrderList
+    TransportOrdeDetails:
+      type: object
+      properties:
+        OrderId:
+          type: string
+        Source:
+          type: string
+        Destiniation:
+          type: string
+        UnitNumber:
+          type: string
+        ProductNumber:
+          type: string
+        Quantity:
+          type: number
+          format: double
+        Status:
+          type: integer
+        Priority:
+          type: integer
+        DueDate:
+          type: string
+          format: date-time
+        VehicleType:
+          type: string
+        ProductDescription:
+          type: string
+        UnitOfMeasure:
+          type: string
+        ProductType:
+          type: string
+        ExternalUnitID:
+          type: string
+        UnitType:
+          type: string
+        BatchNumber:
+          type: string
+        Height:
+          type: integer
+        Width:
+          type: integer
+        Length:
+          type: integer
+        Weight:
+          type: integer
+        SerialNumber:
+          type: string
+        ActualQuantity:
+          type: number
+          format: double
+        VehicleID:
+          type: string
+        VehicleCode:
+          type: string
+        VehicleDescription:
+          type: string
+      xml:
+        name: TransportOrdeDetails
+    ActivityArea:
+      type: object
+      properties:
+        ActivityArea:
+          type: string
+        ActivityAreaDescription:
+          type: string
+        MaxAllowedActiveOrders:
+          type: integer
+        UserId:
+          type: string
+      xml:
+        name: ActivityArea
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    cagvt_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://api-test-int.scania.com/authorize
+          scopes:
+            write:order: update transport order in your account
+            read:order: read transport orders
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
